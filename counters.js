@@ -15,11 +15,11 @@ removeButton.setAttribute("onclick", "removeCounters()");
 rootElement.appendChild(headerElement);
 headerElement.appendChild(document.createElement("h1")).innerText =
   "COUNTERS OR NOT COUNTERS, THIS IS THE QUESTION";
+headerElement.appendChild(addButton).innerText = "Add Counter";
+headerElement.appendChild(inputElement);
+headerElement.appendChild(removeButton).innerText = "Remove Counter";
 rootElement.appendChild(mainElement);
 mainElement.appendChild(sectionElement);
-sectionElement.appendChild(addButton).innerText = "Add Counter";
-sectionElement.appendChild(inputElement);
-sectionElement.appendChild(removeButton).innerText = "Remove Counter";
 
 //Counters creation logic
 let initialCounter = 0;
@@ -37,8 +37,11 @@ function addCounters() {
     };
   }
 
+  //Article creation
   for (let i = initialCounter; i < sum; i++) {
     const articleElement = document.createElement("article");
+    const divElement = document.createElement("div");
+    divElement.classList.add("counter-container");
     const increaseButton = document.createElement("button");
     increaseButton.setAttribute(
       "onclick",
@@ -65,11 +68,12 @@ function addCounters() {
     articleElement.appendChild(
       document.createElement("li")
     ).innerText = `COUNTER ${parseFloat(i) + 1}`;
-    articleElement.appendChild(decreaseButton).innerText = "-";
-    articleElement.appendChild(document.createElement("span")).innerText = `${
+    articleElement.appendChild(divElement);
+    divElement.appendChild(decreaseButton).innerText = "-";
+    divElement.appendChild(document.createElement("p")).innerText = `${
       counters[i + 1].value
     }`;
-    articleElement.appendChild(increaseButton).innerText = "+";
+    divElement.appendChild(increaseButton).innerText = "+";
     articleElement.appendChild(document.createElement("br"));
     articleElement.appendChild(resetButton).innerText = "Reset";
     articleElement.appendChild(deleteButton).innerText = "Delete Counter";
@@ -101,7 +105,7 @@ function removeCounters() {
 //function counter logic
 function handleCounter(operation, id) {
   const articleElement = document.getElementById(`${id}`);
-  const spanElement = articleElement.querySelector("span");
+  const pElement = articleElement.querySelector("p");
   switch (operation) {
     case "increase":
       counters[id].value += 1;
@@ -118,5 +122,5 @@ function handleCounter(operation, id) {
     default:
       return alert("Operazione non valida!");
   }
-  spanElement.innerText = `${counters[id].value}`;
+  pElement.innerText = `${counters[id].value}`;
 }
