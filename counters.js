@@ -2,91 +2,89 @@ const rootElement = document.querySelector("#root");
 
 //Elements creation
 const headerElement = document.createElement("header");
+const h1Element = document.createElement("h1");
+h1Element.innerText = "COUNTERS OR NOT COUNTERS, THIS IS THE QUESTION";
 const mainElement = document.createElement("main");
-const sectionElement = document.createElement("section");
+const ulElement = document.createElement("ul");
 const inputElement = document.createElement("input");
-inputElement.setAttribute("type", "text");
+inputElement.type = "text";
 const addButton = document.createElement("button");
-addButton.setAttribute("onclick", "addCounters()");
+addButton.innerText = "Add Counter";
+addButton.addEventListener("click", addCounter);
 const removeButton = document.createElement("button");
-removeButton.setAttribute("onclick", "removeCounters()");
-
+removeButton.innerText = "Remove Counter";
+removeButton.addEventListener("click", removeCounter);
 //DOM creation
 rootElement.appendChild(headerElement);
-headerElement.appendChild(document.createElement("h1")).innerText =
-  "COUNTERS OR NOT COUNTERS, THIS IS THE QUESTION";
-headerElement.appendChild(addButton).innerText = "Add Counter";
+headerElement.appendChild(h1Element);
+headerElement.appendChild(addButton);
 headerElement.appendChild(inputElement);
-headerElement.appendChild(removeButton).innerText = "Remove Counter";
+headerElement.appendChild(removeButton);
 rootElement.appendChild(mainElement);
-mainElement.appendChild(sectionElement);
+mainElement.appendChild(ulElement);
 
 //Counters creation logic
-let initialCounter = 0;
+let numberCounters = 0;
 const counters = [];
 
 //Function to Add Counters
-function addCounters() {
-  let numberCountersToAdd = inputElement.value;
-  let sum = initialCounter + parseFloat(numberCountersToAdd);
+function addCounter() {
+  numberCounters += 1;
 
-  for (let i = 1; i <= sum; i++) {
-    counters[i] = {
-      id: i,
-      value: 0,
-    };
-  }
+  counters[numberCounters] = {
+    id: numberCounters,
+    value: 0,
+  };
 
   //Article creation
-  for (let i = initialCounter; i < sum; i++) {
-    const articleElement = document.createElement("article");
-    const divElement = document.createElement("div");
-    divElement.classList.add("counter-container");
-    const increaseButton = document.createElement("button");
-    increaseButton.setAttribute(
-      "onclick",
-      `handleCounter('increase', ${counters[i + 1].id} )`
-    );
-    const decreaseButton = document.createElement("button");
-    decreaseButton.setAttribute(
-      "onclick",
-      `handleCounter('decrease', ${counters[i + 1].id} )`
-    );
-    const resetButton = document.createElement("button");
-    resetButton.setAttribute(
-      "onclick",
-      `handleCounter('reset', ${counters[i + 1].id} )`
-    );
-    const deleteButton = document.createElement("button");
-    deleteButton.setAttribute(
-      "onclick",
-      `handleCounter('delete', ${counters[i + 1].id} )`
-    );
+  const liElement = document.createElement("li");
+  const articleElement = document.createElement("article");
+  articleElement.setAttribute("id", `${counters[numberCounters].id}`);
+  const h2Element = document.createElement("h2");
+  h2Element.innerText = `COUNTER ${numberCounters}`;
+  const divElement = document.createElement("div");
+  divElement.classList.add("counter-container");
+  const pElement = document.createElement("p");
+  pElement.innerText = `${counters[numberCounters].value}`;
+  const increaseButton = document.createElement("button");
+  increaseButton.innerText = "+";
+  increaseButton.setAttribute(
+    "onclick",
+    `handleCounter('increase', ${counters[numberCounters].id} )`
+  );
+  const decreaseButton = document.createElement("button");
+  decreaseButton.innerText = "-";
+  decreaseButton.setAttribute(
+    "onclick",
+    `handleCounter('decrease', ${counters[numberCounters].id} )`
+  );
+  const resetButton = document.createElement("button");
+  resetButton.innerText = "Reset";
+  resetButton.setAttribute(
+    "onclick",
+    `handleCounter('reset', ${counters[numberCounters].id} )`
+  );
+  const deleteButton = document.createElement("button");
+  deleteButton.innerText = "Delete Counter";
+  deleteButton.setAttribute(
+    "onclick",
+    `handleCounter('delete', ${counters[numberCounters].id} )`
+  );
 
-    articleElement.setAttribute("id", `${counters[i + 1].id}`);
-    sectionElement.appendChild(articleElement);
-    articleElement.appendChild(
-      document.createElement("li")
-    ).innerText = `COUNTER ${parseFloat(i) + 1}`;
-    articleElement.appendChild(divElement);
-    divElement.appendChild(decreaseButton).innerText = "-";
-    divElement.appendChild(document.createElement("p")).innerText = `${
-      counters[i + 1].value
-    }`;
-    divElement.appendChild(increaseButton).innerText = "+";
-    articleElement.appendChild(document.createElement("br"));
-    articleElement.appendChild(resetButton).innerText = "Reset";
-    articleElement.appendChild(deleteButton).innerText = "Delete Counter";
-  }
-
-  if (sum > initialCounter) {
-    initialCounter = sum;
-  }
-  console.log(counters);
+  ulElement.appendChild(liElement);
+  liElement.appendChild(articleElement);
+  articleElement.appendChild(h2Element);
+  articleElement.appendChild(divElement);
+  divElement.appendChild(decreaseButton);
+  divElement.appendChild(pElement);
+  divElement.appendChild(increaseButton);
+  articleElement.appendChild(document.createElement("br"));
+  articleElement.appendChild(resetButton);
+  articleElement.appendChild(deleteButton);
 }
 
 //function to Remove Counters
-function removeCounters() {
+function removeCounter() {
   let numberCountersToRemove = inputElement.value;
   let minus = initialCounter - parseFloat(numberCountersToRemove);
 
