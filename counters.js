@@ -1,4 +1,5 @@
 const rootElement = document.querySelector("#root");
+let inputCounter = 0;
 
 //Elements creation
 const headerElement = document.createElement("header");
@@ -8,6 +9,8 @@ const mainElement = document.createElement("main");
 const ulElement = document.createElement("ul");
 const inputElement = document.createElement("input");
 inputElement.type = "text";
+inputElement.value = `${inputCounter}`;
+inputElement.addEventListener("change", handleNumberOfCounter);
 const addButton = document.createElement("button");
 addButton.innerText = "Add Counter";
 addButton.addEventListener("click", addCounter);
@@ -30,19 +33,19 @@ const counters = [];
 
 //Function to Add Counters
 function addCounter() {
-  numberCounters += 1;
-
-  counters[numberCounters] = {
-    id: numberCounters,
+  inputCounter += 1;
+  inputElement.value = `${inputCounter}`;
+  counters.push({
+    id: parseFloat(numberCounters) + 1,
     value: 0,
-  };
+  });
 
   //Article creation
   const liElement = document.createElement("li");
   liElement.setAttribute("id", `${counters[numberCounters].id}`);
   const articleElement = document.createElement("article");
   const h2Element = document.createElement("h2");
-  h2Element.innerText = `COUNTER ${numberCounters}`;
+  h2Element.innerText = `COUNTER ${counters[numberCounters].id}`;
   const divElement = document.createElement("div");
   divElement.classList.add("counter-container");
   const pElement = document.createElement("p");
@@ -82,16 +85,21 @@ function addCounter() {
   articleElement.appendChild(document.createElement("br"));
   articleElement.appendChild(resetButton);
   articleElement.appendChild(deleteButton);
+
+  numberCounters += 1;
 }
 
 //function to Remove Counters
 function removeCounter() {
-  if (numberCounters > 0) {
-    elementToRemove = document.getElementById(`${numberCounters}`);
-    elementToRemove.remove();
-    counters.pop();
+  if (inputCounter > 0) {
+    inputCounter -= 1;
+    inputElement.value = `${inputCounter}`;
+  }
 
-    numberCounters -= 1;
+  let ulElement = document.querySelector("ul");
+  let liLastChild = ulElement.lastChild;
+  if (liLastChild !== null) {
+    liLastChild.remove();
   }
 }
 
@@ -99,27 +107,38 @@ function removeCounter() {
 function handleCounter(operation, id) {
   const articleElement = document.getElementById(`${id}`);
   const pElement = articleElement.querySelector("p");
+
   switch (operation) {
     case "increase":
-      counters[id].value += 1;
-      pElement.innerText = `${counters[id].value}`;
+      counters[id - 1].value += 1;
+      pElement.innerText = `${counters[id - 1].value}`;
       break;
     case "decrease":
-      counters[id].value -= 1;
-      pElement.innerText = `${counters[id].value}`;
+      counters[id - 1].value -= 1;
+      pElement.innerText = `${counters[id - 1].value}`;
       break;
     case "reset":
-      counters[id].value = 0;
-      pElement.innerText = `${counters[id].value}`;
+      counters[id - 1].value = 0;
+      pElement.innerText = `${counters[id - 1].value}`;
       break;
     case "delete":
+      if (inputCounter > 0) {
+        inputCounter -= 1;
+        inputElement.value = `${inputCounter}`;
+      }
       articleElement.remove();
-      const index = counters.findIndex((counter) => counter?.id === id);
-      counters.splice(index, 1);
 
-      console.log(counters);
       break;
     default:
       return alert("Operazione non valida!");
   }
+}
+
+//onchange input function
+function handleNumberOfCounter() {
+  let inputValue = inputElement.value;
+  let minus = inputValue - inputCounter;
+  if (inputValue.match(/^[0-9]+$/)) {
+    console.log("numero");
+  } else alert("The value is not a number!");
 }
