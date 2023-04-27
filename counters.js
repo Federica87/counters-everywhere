@@ -14,6 +14,7 @@ addButton.addEventListener("click", addCounter);
 const removeButton = document.createElement("button");
 removeButton.innerText = "Remove Counter";
 removeButton.addEventListener("click", removeCounter);
+
 //DOM creation
 rootElement.appendChild(headerElement);
 headerElement.appendChild(h1Element);
@@ -38,8 +39,8 @@ function addCounter() {
 
   //Article creation
   const liElement = document.createElement("li");
+  liElement.setAttribute("id", `${counters[numberCounters].id}`);
   const articleElement = document.createElement("article");
-  articleElement.setAttribute("id", `${counters[numberCounters].id}`);
   const h2Element = document.createElement("h2");
   h2Element.innerText = `COUNTER ${numberCounters}`;
   const divElement = document.createElement("div");
@@ -85,19 +86,13 @@ function addCounter() {
 
 //function to Remove Counters
 function removeCounter() {
-  let numberCountersToRemove = inputElement.value;
-  let minus = initialCounter - parseFloat(numberCountersToRemove);
+  if (numberCounters > 0) {
+    elementToRemove = document.getElementById(`${numberCounters}`);
+    elementToRemove.remove();
+    counters.pop();
 
-  for (let i = initialCounter; i > minus; i--) {
-    if (i > 0) {
-      const elementToRemove = document.getElementById(`${i}`);
-      elementToRemove.remove();
-    }
+    numberCounters -= 1;
   }
-
-  if (initialCounter > minus) {
-    initialCounter = minus;
-  } else initialCounter = 0;
 }
 
 //function counter logic
@@ -107,18 +102,24 @@ function handleCounter(operation, id) {
   switch (operation) {
     case "increase":
       counters[id].value += 1;
+      pElement.innerText = `${counters[id].value}`;
       break;
     case "decrease":
       counters[id].value -= 1;
+      pElement.innerText = `${counters[id].value}`;
       break;
     case "reset":
       counters[id].value = 0;
+      pElement.innerText = `${counters[id].value}`;
       break;
     case "delete":
       articleElement.remove();
+      const index = counters.findIndex((counter) => counter?.id === id);
+      counters.splice(index, 1);
+
+      console.log(counters);
       break;
     default:
       return alert("Operazione non valida!");
   }
-  pElement.innerText = `${counters[id].value}`;
 }
