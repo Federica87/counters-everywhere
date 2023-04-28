@@ -11,6 +11,7 @@ const inputElement = document.createElement("input");
 inputElement.type = "text";
 inputElement.value = `${inputCounter}`;
 inputElement.addEventListener("change", handleNumberOfCounter);
+console.log(inputElement);
 const addButton = document.createElement("button");
 addButton.innerText = "Add Counter";
 addButton.addEventListener("click", addCounter);
@@ -31,16 +32,8 @@ mainElement.appendChild(ulElement);
 let numberCounters = 0;
 const counters = [];
 
-//Function to Add Counters
-function addCounter() {
-  inputCounter += 1;
-  inputElement.value = `${inputCounter}`;
-  counters.push({
-    id: parseFloat(numberCounters) + 1,
-    value: 0,
-  });
-
-  //Article creation
+//function counter creation
+function createCounter() {
   const liElement = document.createElement("li");
   liElement.setAttribute("id", `${counters[numberCounters].id}`);
   const articleElement = document.createElement("article");
@@ -85,6 +78,18 @@ function addCounter() {
   articleElement.appendChild(document.createElement("br"));
   articleElement.appendChild(resetButton);
   articleElement.appendChild(deleteButton);
+}
+
+//Function to Add Counters
+function addCounter() {
+  inputCounter += 1;
+  inputElement.value = `${inputCounter}`;
+  counters.push({
+    id: parseFloat(numberCounters) + 1,
+    value: 0,
+  });
+
+  createCounter();
 
   numberCounters += 1;
 }
@@ -136,6 +141,7 @@ function handleCounter(operation, id) {
 
 //onchange input function
 function handleNumberOfCounter() {
+  console.log(inputElement.value);
   if (inputElement.value >= 0) {
     let inputValue = inputElement.value;
 
