@@ -130,15 +130,28 @@ function handleCounter(operation, id) {
 
       break;
     default:
-      return alert("Operazione non valida!");
+      return alert("Operation is not valid!");
   }
 }
 
 //onchange input function
 function handleNumberOfCounter() {
-  let inputValue = inputElement.value;
-  let minus = inputValue - inputCounter;
-  if (inputValue.match(/^[0-9]+$/)) {
-    console.log("numero");
-  } else alert("The value is not a number!");
+  if (inputElement.value >= 0) {
+    let inputValue = inputElement.value;
+
+    if (inputValue.match(/^[0-9]+$/)) {
+      let minus = inputValue - inputCounter;
+      console.log(minus);
+      if (minus >= 0) {
+        for (let i = 0; i < minus; i++) {
+          addCounter();
+        }
+      } else if (minus < 0) {
+        for (let i = 0; i > minus; i--) {
+          removeCounter();
+        }
+      }
+    } else alert("The value is not valid!");
+    inputCounter = +inputValue;
+  }
 }
