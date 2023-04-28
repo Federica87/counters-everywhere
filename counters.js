@@ -141,7 +141,6 @@ function handleNumberOfCounter() {
 
     if (inputValue.match(/^[0-9]+$/)) {
       let minus = inputValue - inputCounter;
-      console.log(minus);
       if (minus >= 0) {
         for (let i = 0; i < minus; i++) {
           addCounter();
