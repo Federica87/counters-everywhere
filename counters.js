@@ -145,7 +145,7 @@ function handleNumberOfCounter() {
     if (inputElement.value.match(/^[0-9]+$/) && inputElement.value >= 0) {
       let inputValue = inputElement.value;
       let minus = inputValue - inputCounter;
-      if (minus >= 0) {
+      if (minus > 0) {
         for (let i = 0; i < minus; i++) {
           addCounter();
         }
