@@ -10,8 +10,8 @@ const ulElement = document.createElement("ul");
 const inputElement = document.createElement("input");
 inputElement.type = "text";
 inputElement.value = `${inputCounter}`;
-inputElement.addEventListener("change", handleNumberOfCounter);
-console.log(inputElement);
+
+inputElement.addEventListener("input", handleNumberOfCounter);
 const addButton = document.createElement("button");
 addButton.innerText = "Add Counter";
 addButton.addEventListener("click", addCounter);
@@ -141,11 +141,9 @@ function handleCounter(operation, id) {
 
 //onchange input function
 function handleNumberOfCounter() {
-  console.log(inputElement.value);
-  if (inputElement.value >= 0) {
-    let inputValue = inputElement.value;
-
-    if (inputValue.match(/^[0-9]+$/)) {
+  if (inputElement.value !== "") {
+    if (inputElement.value.match(/^[0-9]+$/) && inputElement.value >= 0) {
+      let inputValue = inputElement.value;
       let minus = inputValue - inputCounter;
       if (minus >= 0) {
         for (let i = 0; i < minus; i++) {
@@ -156,7 +154,7 @@ function handleNumberOfCounter() {
           removeCounter();
         }
       }
+      inputCounter = +inputValue;
     } else alert("The value is not valid!");
-    inputCounter = +inputValue;
   }
 }
